@@ -1,11 +1,6 @@
-Below is an example of a comprehensive `README.md` for your project. You can adjust details as needed:
+# FastAPI Trade Order Service
 
---- 
-
-```markdown
-# Blockhouse Trade Service
-
-A simple backend service built with FastAPI that accepts trade order details via a REST API, stores orders in an SQLite database, and exposes endpoints for creating and retrieving orders. The application is containerized with Docker and deployed on AWS EC2 with a CI/CD pipeline using GitHub Actions.
+A lightweight backend service built with **FastAPI** that accepts trade order details via a REST API, stores them in an **SQLite** database, and provides endpoints for creating and retrieving orders. The service is containerized using **Docker** and deployed to an **AWS EC2** instance, with a **CI/CD pipeline** powered by **GitHub Actions**.
 
 ## Table of Contents
 
@@ -18,115 +13,116 @@ A simple backend service built with FastAPI that accepts trade order details via
 - [API Endpoints](#api-endpoints)
 - [Deployment on AWS EC2](#deployment-on-aws-ec2)
 - [CI/CD Pipeline](#cicd-pipeline)
-- [Demo Video](#demo-video)
+- [Tech Stack](#tech-stack)
 - [License](#license)
+
+---
 
 ## Project Overview
 
-This project implements a simple trading orders service that provides REST APIs to:
-- **POST /orders:** Accept trade orders with details like symbol, price, quantity, and order type.
-- **GET /orders:** Retrieve a list of all submitted orders.
+This project implements a simple trading order service with the following core features:
+- **POST /orders**: Accept trade orders with fields like symbol, price, quantity, and order type (buy/sell).
+- **GET /orders**: Retrieve all submitted trade orders.
+- **GET /**: A health-check endpoint.
 
-The application is built with **FastAPI** for its ease of creating RESTful APIs and built-in automatic API documentation (Swagger/OpenAPI). Data is stored in an SQLite database for simplicity.
+Built with **FastAPI** for fast development and interactive documentation (Swagger/OpenAPI), and using **SQLite** for lightweight data persistence.
+
+---
 
 ## Project Structure
 
 ```
-Blockhouse-Task/
+trade-order-service/
 ├── app/
-│   ├── __init__.py         # Marks the app directory as a package
-│   ├── main.py             # Entry point for the FastAPI app
-│   ├── models.py           # SQLAlchemy models (Order)
-│   ├── schemas.py          # Pydantic schemas for request/response validation
-│   ├── database.py         # Database configuration (SQLite)
+│   ├── __init__.py
+│   ├── main.py             # FastAPI app entry point
+│   ├── models.py           # SQLAlchemy models
+│   ├── schemas.py          # Pydantic request/response models
+│   ├── database.py         # Database setup
 │   └── routers/
-│       ├── __init__.py     # Marks routers as a package
-│       └── orders.py       # API routes for /orders
-├── requirements.txt        # Python dependencies
-├── Dockerfile              # Docker configuration for containerizing the app
+│       ├── __init__.py
+│       └── orders.py       # /orders API routes
+├── requirements.txt
+├── Dockerfile
 ├── .github/
 │   └── workflows/
-│       └── ci-cd.yml       # GitHub Actions CI/CD pipeline configuration
-└── README.md               # Project documentation (this file)
+│       └── ci-cd.yml       # GitHub Actions workflow
+└── README.md
 ```
+
+---
 
 ## Features
 
-- **REST API:** Provides endpoints to create and list trade orders.
-- **Database:** Uses SQLite for order data persistence.
-- **Dockerized:** Containerized using Docker for easy deployment.
-- **Deployment:** Deployed on AWS EC2 instance.
-- **CI/CD:** Automated build, test, and deployment pipeline using GitHub Actions.
-- **Documentation:** Automatic API docs provided by FastAPI at `/docs`.
+- ✅ REST API to create and retrieve trade orders  
+- ✅ SQLite database integration via SQLAlchemy  
+- ✅ Interactive API docs at `/docs`  
+- ✅ Dockerized for consistent deployment  
+- ✅ Deployed on AWS EC2  
+- ✅ CI/CD pipeline with GitHub Actions  
+
+---
 
 ## Getting Started
 
 ### Local Setup
 
 1. **Clone the repository:**
-
    ```bash
-   git clone https://github.com/varad-387/Blockhouse-Task.git
-   cd Blockhouse-Task
+   git clone https://github.com/your-username/trade-order-service.git
+   cd trade-order-service
    ```
 
 2. **Create and activate a virtual environment:**
-
    ```bash
    python3 -m venv venv
-   source venv/bin/activate   # On Windows, use: venv\Scripts\activate
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
 
 3. **Install dependencies:**
-
    ```bash
    pip install -r requirements.txt
    ```
 
 4. **Run the application:**
-
    ```bash
    uvicorn app.main:app --reload
    ```
 
-5. **Open your browser and visit:**
+5. **Access the API docs:**
+   Visit [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
 
-   [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs) to view the interactive API documentation.
+---
 
 ### Running with Docker
 
 1. **Build the Docker image:**
-
    ```bash
-   docker build -t my-trade-service:latest .
+   docker build -t trade-order-service:latest .
    ```
 
-2. **Run the Docker container:**
-
+2. **Run the container:**
    ```bash
-   docker run -d -p 8000:8000 --name trade_service my-trade-service:latest
+   docker run -d -p 8000:8000 --name trade_service trade-order-service:latest
    ```
 
-3. **Access the application:**
+3. **Open the docs:**
+   Visit [http://localhost:8000/docs](http://localhost:8000/docs)
 
-   Open [http://localhost:8000/docs](http://localhost:8000/docs) in your browser.
+---
 
 ## API Endpoints
 
-The following endpoints are available:
-
 - **GET /**  
-  A simple health-check endpoint.  
-  _Example Response:_
+  _Health-check endpoint_  
+  Response:
   ```json
-  {
-    "message": "Hello, World!"
-  }
+  { "message": "Hello, World!" }
   ```
 
 - **POST /orders**  
-  Create a new trade order.  
-  _Request Body Example:_
+  _Create a new trade order_  
+  Example Request:
   ```json
   {
     "symbol": "AAPL",
@@ -135,7 +131,7 @@ The following endpoints are available:
     "order_type": "buy"
   }
   ```
-  _Successful Response (HTTP 201):_
+  Example Response:
   ```json
   {
     "symbol": "AAPL",
@@ -147,8 +143,8 @@ The following endpoints are available:
   ```
 
 - **GET /orders**  
-  Retrieve a list of all orders.  
-  _Example Response:_
+  _Retrieve all orders_  
+  Example Response:
   ```json
   [
     {
@@ -161,47 +157,62 @@ The following endpoints are available:
   ]
   ```
 
+---
+
 ## Deployment on AWS EC2
 
-1. **Launch an Ubuntu EC2 Instance:**
-   - Choose an Ubuntu AMI (e.g., Ubuntu Server 20.04 LTS).
-   - Configure security groups to allow inbound traffic on **SSH (port 22)** and **port 8000**.
+1. **Launch EC2 Instance** (Ubuntu)
+   - Open ports 22 (SSH) and 8000 in security group
 
-2. **SSH into the EC2 Instance:**
+2. **SSH into the instance:**
    ```bash
-   ssh -i /path/to/your-key.pem ubuntu@<EC2-PUBLIC-IP>
+   ssh -i /path/to/key.pem ubuntu@<EC2-IP>
    ```
 
-3. **Install Docker on the EC2 Instance:**
+3. **Install Docker:**
    ```bash
-   sudo apt-get update
-   sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
-   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-   sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-   sudo apt-get update
-   sudo apt-get install -y docker-ce
+   sudo apt update
+   sudo apt install -y docker.io
    sudo systemctl start docker
    sudo systemctl enable docker
    ```
 
-4. **Deploy the Container:**
-   - Pull your Docker image from Docker Hub (or build on the instance):
-     ```bash
-     docker pull varads387/my-trade-service:latest
-     docker run -d -p 8000:8000 --name trade_service varads387/my-trade-service:latest
-     ```
-   - Verify by navigating to `http://<EC2-PUBLIC-IP>:8000/docs`.
+4. **Deploy the container:**
+   ```bash
+   docker pull your-dockerhub-username/trade-order-service:latest
+   docker run -d -p 8000:8000 --name trade_service trade-order-service:latest
+   ```
+
+---
 
 ## CI/CD Pipeline
 
-A GitHub Actions workflow (`.github/workflows/ci-cd.yml`) automates the build, test, and deployment process. The workflow:
-- Runs tests on pull requests.
-- Builds the Docker image.
-- Pushes the image to Docker Hub.
-- SSHs into the EC2 instance to pull the latest image and restart the container.
+A GitHub Actions workflow automatically:
+- Runs tests on pull requests
+- Builds and pushes Docker images to Docker Hub
+- SSHs into EC2 and redeploys the updated container
 
-### Secrets Needed
-- `EC2_HOST`: Public IP or DNS of the EC2 instance.
-- `EC2_USER`: Typically `ubuntu`.
-- `EC2_SSH_KEY`: Private key for SSH access.
-- `DOCKERHUB_USERNAME` and `DOCKERHUB_PASSWORD`: Docker Hub credentials.
+### Required GitHub Secrets
+
+- `EC2_HOST`: EC2 public IP or DNS  
+- `EC2_USER`: Typically `ubuntu`  
+- `EC2_SSH_KEY`: Your EC2 private key  
+- `DOCKERHUB_USERNAME` & `DOCKERHUB_PASSWORD`: Docker Hub credentials  
+
+---
+
+## Tech Stack
+
+- **FastAPI** – web framework  
+- **SQLite** – lightweight database  
+- **SQLAlchemy** – ORM for Python  
+- **Docker** – containerization  
+- **GitHub Actions** – CI/CD pipeline  
+- **AWS EC2** – cloud deployment  
+
+---
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
